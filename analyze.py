@@ -44,19 +44,19 @@ def create_graph(paramed_df):
     plt.plot(x_values, y_values, '.') # Plots one vs the other at points, no connecting lines
 
     m, b = np.polyfit(x_values, y_values, 1)
-    plt.plot(x_values, m*x_values + b) # Add line of best fit with degree 1
+    plt.plot(x_values, m*x_values + b) # Add line of best fit with equation of degree 1
 
     matrix = np.corrcoef(x_values, y_values)
     corr = matrix[0, 1]
-    r_squared = corr ** 2
+    r_squared = corr ** 2 # Getting the value of r^2
 
     plt.text(0, 0,
              'y = ' + '{:.3f}'.format(m) + 'x + ' + '{:.3f}'.format(b) + '\nr^2 = ' + '{:.3f}'.format(r_squared),
-             size=11) # Write the equation at the bottom left
+             size=11) # Write the equation and value of r^2 at the bottom left
 
     plt.title("Comparison")
     plt.savefig(name)
-    return image, name
+    return image, name # Return us the graph and its name as the .png file
 
 # Arbritary Testing
 site = filter_site("A")
