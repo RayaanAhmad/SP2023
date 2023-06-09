@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 water_df = pd.read_csv("BKB_WaterCleaned.csv") # Initialize the DataFrame on launch
 
@@ -40,7 +41,12 @@ def create_graph(paramed_df):
 
     x_values = paramed_df[headers[0]]
     y_values = paramed_df[headers[1]]
-    plt.plot(x_values, y_values) # Plots one vs the other
+    plt.plot(x_values, y_values, '.') # Plots one vs the other at points, no connecting lines
+
+    m, b = np.polyfit(x_values, y_values, 1)
+    plt.plot(x_values, m*x_values + b) # Add line of best fit with degree 1
+    # plt.text(0, 0, 'y = ' + '{:.3f}'.format(m) + 'x + ' + '{:.3f}'.format(b) , size=11) # Write the equation
+                                                                                          # At the bottom left
 
     plt.title("Comparison")
     plt.savefig(name)
