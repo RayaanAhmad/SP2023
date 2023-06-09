@@ -45,8 +45,14 @@ def create_graph(paramed_df):
 
     m, b = np.polyfit(x_values, y_values, 1)
     plt.plot(x_values, m*x_values + b) # Add line of best fit with degree 1
-    # plt.text(0, 0, 'y = ' + '{:.3f}'.format(m) + 'x + ' + '{:.3f}'.format(b) , size=11) # Write the equation
-                                                                                          # At the bottom left
+
+    matrix = np.corrcoef(x_values, y_values)
+    corr = matrix[0, 1]
+    r_squared = corr ** 2
+
+    plt.text(0, 0,
+             'y = ' + '{:.3f}'.format(m) + 'x + ' + '{:.3f}'.format(b) + '\nr^2 = ' + '{:.3f}'.format(r_squared),
+             size=11) # Write the equation at the bottom left
 
     plt.title("Comparison")
     plt.savefig(name)
