@@ -32,8 +32,12 @@ def pick_two(site_df, param1, param2):
 # @ Returns: string: graph_name - name of the graph as .png file
 #            pyplot: image - the graph comparing the variables
 def create_graph(paramed_df):
-    name = "temp.png"
+    name = "compare.png"
     headers = paramed_df.columns # The headers in the dataframe
+
+    x_ax = headers[0].split(' ')[0]
+    y_ax = headers[1].split(' ')[0] # Get labels of the X and Y axis w/o units
+    title = x_ax + ' vs. ' + y_ax   # Title of the graph
 
     image = plt.figure() # The graph
     plt.xlabel(headers[0]) # X-Axis = param1 from pick_two()
@@ -54,9 +58,9 @@ def create_graph(paramed_df):
              'y = ' + '{:.3f}'.format(m) + 'x + ' + '{:.3f}'.format(b) + '\nr^2 = ' + '{:.3f}'.format(r_squared),
              size=11) # Write the equation and value of r^2 at the bottom left
 
-    plt.title("Comparison")
+    plt.title(title)
     plt.savefig(name)
-    return image, name # Return us the graph and its name as the .png file
+    return image, name # Return us the graph
 
 # Arbritary Testing
 site = filter_site("A")
