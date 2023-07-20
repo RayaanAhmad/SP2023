@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from PIL import ImageTk, Image
 import analyze
@@ -10,8 +11,9 @@ xaxis_options = ["Date", "Dissolved Oxygen", "pH", "Salinity",
 
 yaxis_options = ["Date", "Dissolved Oxygen", "pH", "Salinity",
                 "Secchi Depth", "Water Depth", "Water Temp"] # Y-Axis ## TEMP ##
+# Y-Axis is dynamic to be the same list as xaxis-options minus the selected choice
 
-## Y-Axis is dynamic to be the same list as xaxis-options minus the selected choice
+png_name = "compare.png"
 
 ## MAIN BODY OF WINDOW
 
@@ -59,7 +61,7 @@ yaxis_drop.grid(row=2, column=2) # Place it in the ui
 
 ## IMAGE OF GRAPH
 
-img = Image.open("compare.png") # Create image
+img = Image.open(png_name) # Create image
 img = img.resize((900, 600)) # Resize the image
 img = ImageTk.PhotoImage(img) # Make it into a photoimage to be added to window
 
@@ -68,6 +70,32 @@ img_label.grid(row=0, column=0, rowspan=5) # Have it fill column 1 and all rows
 
 ## UPDATE + VARS
 
+option_to_title = { # Adds labels to param to be called in DF
+    "Date" : "Read_Date",
+    "Dissolved Oxygen" : "Dissolved Oxygen (mg/L)",
+    "pH" : "pH (standard units)",
+    "Salinity" : "Salinity (ppt)",
+    "Secchi Depth" : "Secchi Depth (m)",
+    "Water Depth" : "Water Depth (m)",
+    "Water Temp" : "Water Temp (?C)"
+}
+
+
+# Returns the name of the png we need
+# @ Param : NONE
+# @ Returns : string - Name of the png_file
+#             string - Bad file read
+def get_png_name():
+    dirr = os.getcwd() # Get the current directory we are in
+    for file in os.listdir(dirr): # Get the PNG File
+        if file.endswith(".png"):
+            return file
+    return "No Images"
+
+
+# Takes in new button values and updates the image
+def update(window):
+    pass
 ##
 
 window.mainloop() # Run the window
