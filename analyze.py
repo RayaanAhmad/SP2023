@@ -62,7 +62,7 @@ def create_graph(paramed_df):
     plt.savefig(name)
     return image, name # Return us the graph
 
-# Arbritary Testing
-site = filter_site("A")
-params = pick_two(site, "Salinity (ppt)", "pH (standard units)")
-im, na = create_graph(params)
+# # Arbritary Testing ## LEAVE COMMENTED OR ELSE BREAKS INTERFACE.PY
+# site = filter_site("A")
+# params = pick_two(site, "Salinity (ppt)", "pH (standard units)")
+# im, na = create_graph(params)
