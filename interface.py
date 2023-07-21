@@ -80,6 +80,10 @@ option_to_title = { # Adds labels to param to be called in DF
     "Water Temp" : "Water Temp (?C)"
 }
 
+site_param = None
+xaxis_param = None
+yaxis_param = None
+
 
 # Returns the name of the png we need
 # @ Param : NONE
@@ -93,9 +97,54 @@ def get_png_name():
     return "No Images"
 
 
+# Updates site_param variable
+# @ Param: change_site - new site location
+# @ Returns: NONE
+def new_site(change_site):
+    global site_param
+    site_param = change_site
+    update()
+    return
+
+
+# Update xaxis_param variable
+# @ Param: change_x - new xaxis param
+# @ Returns: NONE
+def new_xaxis(change_x):
+    global xaxis_param
+    xaxis_param = change_x
+    update()
+    return
+
+# Update yaxis_param variable
+# @ Param: change_y - new yaxis param
+# @ Returns: NONE
+def new_yaxis(change_y):
+    global yaxis_param
+    yaxis_param = change_y
+    update()
+    return
+
+
+# Checks that params are filled
+# @ Param : NONE
+# @ Returns: boolean - False is any is none, True if all are not None
+def params_filled():
+    if (site_param is None) or (xaxis_param is None) or (yaxis_param is None):
+        return False
+    return True
+
 # Takes in new button values and updates the image
-def update(window):
+def update():
+    # Make Sure Params Are Filled #
+    if not params_filled(): # Don't change anything
+        return
+
+    # Get New DF #
+    # Delete Old Image #
+    # Set New Image #
     pass
 ##
 
 window.mainloop() # Run the window
+
