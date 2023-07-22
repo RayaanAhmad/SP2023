@@ -31,7 +31,6 @@ def pick_two(site_df, param1, param2):
 # @ Param: DataFrame: paramed_df - Dataframe with first column as X-Axis and second as Y-Axis
 #          string: site_name - Name of the chosen site
 # @ Returns: string: graph_name - name of the graph as .png file
-#            pyplot: image - the graph comparing the variables
 def create_graph(paramed_df, site_name):
     headers = paramed_df.columns # The headers in the dataframe
     x_ax = headers[0].split(' ')[0]
@@ -60,7 +59,7 @@ def create_graph(paramed_df, site_name):
     plt.title(title)
     name = "compare.png" # Temp name for testing
     plt.savefig(name)
-    return image, name # Return us the graph
+    return name # Return us the name of the graph
 
 # # Arbritary Testing ## LEAVE COMMENTED OR ELSE BREAKS INTERFACE.PY
 # site = filter_site("A")
