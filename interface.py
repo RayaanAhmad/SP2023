@@ -3,7 +3,42 @@ import tkinter as tk
 from PIL import ImageTk, Image
 import analyze
 
-# DROPDOWN MENUS
+# TO DO LIST:
+# 1) Make dynamic yaxis_options
+# 2) Make the graph able to read time (in analyze.py)
+# 3) Fix the line of best fit and r^2 display on graph (in analyze.py)
+
+## MAIN BODY OF WINDOW
+
+window = tk.Tk() # Main window
+window.geometry("1200x800") # Make the window bigger
+
+window.columnconfigure(0, weight=8) # Three columns, w/ ratio 8:1:1 Left-> Right
+window.columnconfigure(1, weight=1)
+window.columnconfigure(2, weight=1)
+window.rowconfigure(0, weight=1) # Three, w/ ratio 1:1:1 Top -> Bottom
+window.rowconfigure(1, weight=1)
+window.rowconfigure(2, weight=1)
+
+## LABELS
+
+site_label = tk.Label(window, text="Site ID") # Label for SiteID
+site_label.grid(row=0, column=1)
+
+x_label = tk.Label(window, text="X-Axis Parameter") # Label for X-Axis
+x_label.grid(row=1, column=1)
+
+y_label = tk.Label(window, text="Y-Axis Parameter") # Label for Y-Axis
+y_label.grid(row=2, column=1)
+
+# Blank image for placeholding
+blank_img = ImageTk.PhotoImage( Image.new(mode='RGB', size=(480,640), color="rgb(240,240,240)") )
+
+im_label = tk.Label(window, image=blank_img)
+im_label.grid(row=0, column=0, rowspan=5)
+
+## UPDATE + VARS
+
 site_options = ["Bay", "A", "B", "C", "D"] # Site
 
 xaxis_options = ["Date", "Dissolved Oxygen", "pH", "Salinity",
@@ -12,8 +47,6 @@ xaxis_options = ["Date", "Dissolved Oxygen", "pH", "Salinity",
 yaxis_options = ["Dissolved Oxygen", "pH", "Salinity",
                 "Secchi Depth", "Water Depth", "Water Temp"]
 # Y-Axis is dynamic to be the same list as xaxis-options minus the selected choice
-
-## UPDATE + VARS
 
 labeler = { # Adds labels to param to be called in DF
     "Date" : "Read_Date",
@@ -25,7 +58,6 @@ labeler = { # Adds labels to param to be called in DF
     "Water Temp" : "Water Temp (?C)"
 }
 
-png_name = "compare.png"
 site_param = None
 xaxis_param = None
 yaxis_param = None
@@ -85,49 +117,34 @@ def update():
     global site_param
     global xaxis_param
     global yaxis_param
+    global window
+    global im_label
 
     # Make Sure Params Are Filled And Not Duplicates #
     if (not params_filled()) or (xaxis_param == yaxis_param): # Don't change anything
         return
+
+    # Save the old PNG name #
+    old_name = get_png_name()
 
     # Get New DF #
     site_df = analyze.filter_site(site_param)
     params_df = analyze.pick_two(site_df, labeler[xaxis_param], labeler[yaxis_param])
     new_name = analyze.create_graph(params_df, site_param)
 
-    old_name = get_png_name()
-    print(old_name)
-    if old_name != "No Images": # Get rid of the old PNG file
+    # Delete Old Image IF it is not the same thing #
+    if (old_name != "No Images") and (old_name != new_name): # Get rid of the old PNG file
         print(":)")
-        #os.remove(old_name)
+        os.remove(old_name)
 
-    # Delete Old Image #
     # Set New Image #
-    pass
+    new_img = Image.open(new_name)  # Create image
+    new_img = new_img.resize((900, 600))  # Resize the image
+    new_img = ImageTk.PhotoImage(new_img)  # Make it into a photoimage to be added to window
 
-## MAIN BODY OF WINDOW
-
-window = tk.Tk() # Main window
-window.geometry("1200x800") # Make the window bigger
-
-window.columnconfigure(0, weight=8) # Three columns, w/ ratio 8:1:1 Left-> Right
-window.columnconfigure(1, weight=1)
-window.columnconfigure(2, weight=1)
-window.rowconfigure(0, weight=1) # Three, w/ ratio 1:1:1 Top -> Bottom
-window.rowconfigure(1, weight=1)
-window.rowconfigure(2, weight=1)
-
-
-## LABELS
-
-site_label = tk.Label(window, text="Site ID") # Label for SiteID
-site_label.grid(row=0, column=1)
-
-x_label = tk.Label(window, text="X-Axis Parameter") # Label for X-Axis
-x_label.grid(row=1, column=1)
-
-y_label = tk.Label(window, text="Y-Axis Parameter") # Label for Y-Axis
-y_label.grid(row=2, column=1)
+    im_label.configure(image=new_img) # Update our image
+    im_label.image = new_img
+    return
 
 ## DROPDOWN MENUS
 
@@ -148,15 +165,6 @@ yaxis_button.set("Please select a parameter") # Default Text
 
 yaxis_drop = tk.OptionMenu(window, yaxis_button, *yaxis_options, command=new_yaxis) # Make it a dropdown menu
 yaxis_drop.grid(row=2, column=2) # Place it in the ui
-
-## IMAGE OF GRAPH
-
-img = Image.open(png_name) # Create image
-img = img.resize((900, 600)) # Resize the image
-img = ImageTk.PhotoImage(img) # Make it into a photoimage to be added to window
-
-img_label = tk.Label(window, image=img)
-img_label.grid(row=0, column=0, rowspan=5) # Have it fill column 1 and all rows
 
 ##
 

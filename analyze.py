@@ -55,9 +55,8 @@ def create_graph(paramed_df, site_name):
              'y = ' + '{:.3f}'.format(m) + 'x + ' + '{:.3f}'.format(b) + '\nr^2 = ' + '{:.3f}'.format(r_squared),
              size=11) # Write the equation and value of r^2 at the bottom left
 
-    # name = site_name + "_" + x_ax + "_" + y_ax + ".png" # Create custom name of png
+    name = site_name + "_" + x_ax + "_" + y_ax + ".png" # Create custom name of png
     plt.title(title)
-    name = "compare.png" # Temp name for testing
     plt.savefig(name)
     return name # Return us the name of the graph
 
