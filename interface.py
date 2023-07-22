@@ -58,6 +58,7 @@ labeler = { # Adds labels to param to be called in DF
     "Water Temp" : "Water Temp (?C)"
 }
 
+# Global variables so easy to modify between functions
 site_param = None
 xaxis_param = None
 yaxis_param = None
@@ -113,7 +114,11 @@ def params_filled():
     return True
 
 # Takes in new button values and updates the image
+# @ Param : NONE
+# @ Returns: NONE
 def update():
+
+    # Updates the global variables
     global site_param
     global xaxis_param
     global yaxis_param
@@ -134,7 +139,6 @@ def update():
 
     # Delete Old Image IF it is not the same thing #
     if (old_name != "No Images") and (old_name != new_name): # Get rid of the old PNG file
-        print(":)")
         os.remove(old_name)
 
     # Set New Image #
