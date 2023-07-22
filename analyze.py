@@ -29,12 +29,11 @@ def pick_two(site_df, param1, param2):
 
 # Function: takes given parameters and puts into a graph
 # @ Param: DataFrame: paramed_df - Dataframe with first column as X-Axis and second as Y-Axis
+#          string: site_name - Name of the chosen site
 # @ Returns: string: graph_name - name of the graph as .png file
 #            pyplot: image - the graph comparing the variables
-def create_graph(paramed_df):
-    name = "compare.png"
+def create_graph(paramed_df, site_name):
     headers = paramed_df.columns # The headers in the dataframe
-
     x_ax = headers[0].split(' ')[0]
     y_ax = headers[1].split(' ')[0] # Get labels of the X and Y axis w/o units
     title = x_ax + ' vs. ' + y_ax   # Title of the graph
@@ -53,16 +52,17 @@ def create_graph(paramed_df):
     matrix = np.corrcoef(x_values, y_values)
     corr = matrix[0, 1]
     r_squared = corr ** 2 # Getting the value of r^2
-
     plt.text(0, 0,
              'y = ' + '{:.3f}'.format(m) + 'x + ' + '{:.3f}'.format(b) + '\nr^2 = ' + '{:.3f}'.format(r_squared),
              size=11) # Write the equation and value of r^2 at the bottom left
 
+    # name = site_name + "_" + x_ax + "_" + y_ax + ".png" # Create custom name of png
     plt.title(title)
+    name = "compare.png" # Temp name for testing
     plt.savefig(name)
     return image, name # Return us the graph
 
 # # Arbritary Testing ## LEAVE COMMENTED OR ELSE BREAKS INTERFACE.PY
 # site = filter_site("A")
 # params = pick_two(site, "Salinity (ppt)", "pH (standard units)")
-# im, na = create_graph(params)
+# im, na = create_graph(params, "A")
