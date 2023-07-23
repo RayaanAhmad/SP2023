@@ -1,4 +1,5 @@
 import csv
+import datetime
 
 #list_of_sets = []  # Creates a blank list for sets
 important_ones = [0, 2, 3, 4, 5, 6, 7, 8, 10, 15]  # Highly valued columns
@@ -33,6 +34,7 @@ with open('BKB_WaterQualityData_2020084.csv') as bkb_water:
 
     with open('BKB_WaterCleaned.csv', mode='w', newline='') as bkb_cleaned: # Write newline='' else we have blank rows
         cleaned_csv = csv.writer(bkb_cleaned, delimiter=',')
+        first = True
 
         for row in water_csv: # Since we reset our CSV reader this loop writes our headers
             valuable_data = [] # List for all the valuable data points
@@ -43,9 +45,18 @@ with open('BKB_WaterQualityData_2020084.csv') as bkb_water:
                 else:
                     valuable_data.append(row[index]) # Put the data in the list
 
+            if first:
+                cleaned_csv.writerow(valuable_data)
+                first = False
+                continue
+
             if valuable_data[-1] == "KILL": # Go to the next row and skip over incomplete data
                 continue
-            else: # Row data is complete and kept
+            if not first: # Row data is complete and kept
+                date_parts = valuable_data[1].split("/")
+                new_date = datetime.datetime(int(date_parts[2]), int(date_parts[0]), int(date_parts[1]))
+
+                valuable_data[1] = new_date
                 cleaned_csv.writerow(valuable_data)
 
 # # Prints the length of each set in 'list_of_sets'

@@ -37,7 +37,6 @@ def create_graph(paramed_df, site_name):
     y_ax = headers[1].split(' ')[0] # Get labels of the X and Y axis w/o units
     title = x_ax + ' vs. ' + y_ax   # Title of the graph
 
-    image = plt.figure() # The graph
     plt.xlabel(headers[0]) # X-Axis = param1 from pick_two()
     plt.ylabel(headers[1]) # Y-Axis = param2 from pick_two()
 
@@ -60,7 +59,7 @@ def create_graph(paramed_df, site_name):
     plt.savefig(name)
     return name # Return us the name of the graph
 
-# # Arbritary Testing ## LEAVE COMMENTED OR ELSE BREAKS INTERFACE.PY
+# Arbritary Testing ## LEAVE COMMENTED OR ELSE BREAKS INTERFACE.PY
 # site = filter_site("A")
 # params = pick_two(site, "Salinity (ppt)", "pH (standard units)")
 # im, na = create_graph(params, "A")
