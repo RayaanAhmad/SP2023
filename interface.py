@@ -4,9 +4,10 @@ from PIL import ImageTk, Image
 import analyze
 
 # TO DO LIST:
-# 1) Make dynamic yaxis_options
-# 2) Make the graph able to read time (in analyze.py)
-# 3) Fix the line of best fit and r^2 display on graph (in analyze.py)
+# 1) Make the graph able to read time (in analyze.py)
+# 2) Fix the line of best fit and r^2 display on graph (in analyze.py)
+# 3) Closing the window and it acutally closes
+# 4) Cleanup :)
 
 ## MAIN BODY OF WINDOW
 
