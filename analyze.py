@@ -35,7 +35,6 @@ def pick_two(site_df, param1, param2):
 #            pyplot: null_img - return this to clear the graph
 def create_graph(paramed_df, site_name):
     headers = paramed_df.columns # The headers in the dataframe
-    print(headers)
     x_ax = headers[0].split(' ')[0]
     y_ax = headers[1].split(' ')[0] # Get labels of the X and Y axis w/o units
     title = x_ax + ' vs. ' + y_ax   # Title of the graph

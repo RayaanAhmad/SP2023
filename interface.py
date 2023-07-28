@@ -15,7 +15,7 @@ window.geometry("1200x800") # Make the window bigger
 window.columnconfigure(0, weight=8) # Three columns, w/ ratio 8:1:1 Left-> Right
 window.columnconfigure(1, weight=1)
 window.columnconfigure(2, weight=1)
-window.rowconfigure(0, weight=5) # Four, w/ ratio 5:5:5:1 Top -> Bottom
+window.rowconfigure(0, weight=5) # Four rows, w/ ratio 5:5:5:1 Top -> Bottom
 window.rowconfigure(1, weight=5)
 window.rowconfigure(2, weight=5)
 window.rowconfigure(3, weight=1)
@@ -48,8 +48,7 @@ xaxis_options = ["Date", "Dissolved Oxygen", "pH", "Salinity",
                 "Secchi Depth", "Water Depth", "Water Temp"] # X-Axis
 
 yaxis_options = ["Dissolved Oxygen", "pH", "Salinity",
-                "Secchi Depth", "Water Depth", "Water Temp"]
-# Y-Axis is dynamic to be the same list as xaxis-options minus the selected choice
+                "Secchi Depth", "Water Depth", "Water Temp"] # Y-Axis
 
 labeler = { # Adds labels to param to be called in DF
     "Date" : "Read_Date",
