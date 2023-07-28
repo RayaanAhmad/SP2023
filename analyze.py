@@ -2,11 +2,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-water_df = pd.read_csv("BKB_WaterCleaned.csv") # Initialize the DataFrame on launch
+water_df = pd.read_csv("BKB_WaterCleaned.csv", parse_dates=['Read_Date']) # Initialize the DataFrame on launch
+
+dates = water_df["Read_Date"]
+oldest = min(dates)
+youngest = max(dates)
 
 # Notes:
 # Site : [ A, B, C, D, Bay ]
 # Size of DF: [ 156, 164, 100, 194, 661 ]
+# Oldest Date: 1990-01-22 00:00:00
+# Newest Date: 2019-10-23 00:00:00
 
 # Function that first shrinks the water_df to a single site we look at
 # @ Param: string: site_name - Which site we look at, possible values are
@@ -34,6 +40,7 @@ def pick_two(site_df, param1, param2):
 #                    corr_equations - line of best fit and r^2 values
 #            pyplot: null_img - return this to clear the graph
 def create_graph(paramed_df, site_name):
+    print(paramed_df.info())
     headers = paramed_df.columns # The headers in the dataframe
     x_ax = headers[0].split(' ')[0]
     y_ax = headers[1].split(' ')[0] # Get labels of the X and Y axis w/o units
