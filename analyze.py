@@ -5,8 +5,8 @@ import numpy as np
 water_df = pd.read_csv("BKB_WaterCleaned.csv", parse_dates=['Read_Date']) # Initialize the DataFrame on launch
 
 dates = water_df["Read_Date"]
-oldest = min(dates)
-youngest = max(dates)
+oldest = min(dates) # Oldest date
+youngest = max(dates) # Youngest date
 
 # Notes:
 # Site : [ A, B, C, D, Bay ]
@@ -52,19 +52,31 @@ def create_graph(paramed_df, site_name):
 
     x_values = paramed_df[headers[0]]
     y_values = paramed_df[headers[1]]
-    plt.plot(x_values, y_values, '.') # Plots one vs the other at points, no connecting lines
 
-    m, b = np.polyfit(x_values, y_values, 1)
-    plt.plot(x_values, m*x_values + b) # Add line of best fit with equation of degree 1
+    if x_ax == "Read_Date": # Plot differently if doing by time
+        start = pd.Timestamp(youngest)
+        end = pd.Timestamp(oldest)
 
-    matrix = np.corrcoef(x_values, y_values)
-    corr = matrix[0, 1]
-    r_squared = corr ** 2 # Getting the value of r^2
+        paramed_df = paramed_df[(paramed_df['Read_Date'] >= start) &
+                             (paramed_df['Read_Date'] <= end)][[headers[0], headers[1]]] # Set x-axis length
 
-    corr_equations = 'y = ' + '{:.3f}'.format(m) + 'x + ' + '{:.3f}'.format(b) \
-                     + '\nr^2 = ' + '{:.3f}'.format(r_squared)
+        paramed_df.reset_index(drop=True, inplace=True)
+        plt.plot(x_values, y_values) # Plots w/ lines
+        corr_equations = "" # Don't write anything at the bottom
 
-    # Write the equation and value of r^2 at the bottom left
+    else: # Not reading date
+        plt.plot(x_values, y_values, '.') # Plots w/o lines
+
+        m, b = np.polyfit(x_values, y_values, 1)
+        plt.plot(x_values, m*x_values + b) # Add line of best fit with equation of degree 1
+
+        matrix = np.corrcoef(x_values, y_values)
+        corr = matrix[0, 1]
+        r_squared = corr ** 2 # Getting the value of r^2
+
+        corr_equations = 'y = ' + '{:.3f}'.format(m) + 'x + ' + '{:.3f}'.format(b) \
+                        + '\nr^2 = ' + '{:.3f}'.format(r_squared)
+        # equation and value of line of best fit and r^2 at the bottom
 
     name = site_name + "_" + x_ax + "_" + y_ax + ".png" # Create custom name of png
     plt.title(title)
