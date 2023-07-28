@@ -46,7 +46,7 @@ xaxis_options = ["Date", "Dissolved Oxygen", "pH", "Salinity",
 yaxis_options = ["Dissolved Oxygen", "pH", "Salinity",
                 "Secchi Depth", "Water Depth", "Water Temp"] # Y-Axis
 
-labeler = { # Adds labels to param to be called in DF
+labeler = {  # Adds labels to param to be called in DF
     "Date" : "Read_Date",
     "Dissolved Oxygen" : "Dissolved Oxygen (mg/L)",
     "pH" : "pH (standard units)",
@@ -67,8 +67,8 @@ yaxis_param = None
 # @ Returns : string - Name of the png_file
 #             string - Bad file read
 def get_png_name():
-    dirr = os.getcwd() # Get the current directory we are in
-    for file in os.listdir(dirr): # Get the PNG File
+    dirr = os.getcwd()  # Get the current directory we are in
+    for file in os.listdir(dirr):  # Get the PNG File
         if file.endswith(".png"):
             return file
     return "No Images"
@@ -111,6 +111,7 @@ def params_filled():
         return False
     return True
 
+
 # Takes in new button values and updates the image
 # @ Param : NONE
 # @ Returns: NONE
@@ -125,7 +126,7 @@ def update():
     global corr_labels
 
     # Make Sure Params Are Filled And Not Duplicates #
-    if (not params_filled()) or (xaxis_param == yaxis_param): # Don't change anything
+    if (not params_filled()) or (xaxis_param == yaxis_param):  # Don't change anything
         return
 
     # Save the old PNG name #
@@ -137,7 +138,7 @@ def update():
     new_name, new_corrs, null = analyze.create_graph(params_df, site_param)
 
     # Delete Old Image IF it is not the same thing #
-    if (old_name != "No Images") and (old_name != new_name): # Get rid of the old PNG file
+    if (old_name != "No Images") and (old_name != new_name):  # Get rid of the old PNG file
         os.remove(old_name)
 
     # Set New Image #
@@ -145,33 +146,35 @@ def update():
     new_img = new_img.resize((900, 600))  # Resize the image
     new_img = ImageTk.PhotoImage(new_img)  # Make it into a photoimage to be added to window
 
-    im_label.configure(image=new_img) # Update our image
+    im_label.configure(image=new_img)  # Update our image
     im_label.image = new_img
 
-    corr_labels.config(text=new_corrs) # Update the label
+    corr_labels.config(text=new_corrs)  # Update the label
     return
+
 
 ## DROPDOWN MENUS
 
-site_button = tk.StringVar() # Button for site options
-site_button.set("Please select a site") # Default Text
+site_button = tk.StringVar()  # Button for site options
+site_button.set("Please select a site")  # Default Text
 
-site_drop = tk.OptionMenu(window, site_button, *site_options, command=new_site) # Make it a dropdown menu
-site_drop.grid(row=0, column=2) # Place it in the ui
+site_drop = tk.OptionMenu(window, site_button, *site_options, command=new_site)  # Make it a dropdown menu
+site_drop.grid(row=0, column=2)  # Place it in the ui
 
-xaxis_button = tk.StringVar() # Button for x-param options
-xaxis_button.set("Please select a parameter") # Default Text
+xaxis_button = tk.StringVar()  # Button for x-param options
+xaxis_button.set("Please select a parameter")  # Default Text
 
-xaxis_drop = tk.OptionMenu(window, xaxis_button, *xaxis_options, command=new_xaxis) # Make it a dropdown menu
-xaxis_drop.grid(row=1, column=2) # Place it in the ui
+xaxis_drop = tk.OptionMenu(window, xaxis_button, *xaxis_options, command=new_xaxis)  # Make it a dropdown menu
+xaxis_drop.grid(row=1, column=2)  # Place it in the ui
 
-yaxis_button = tk.StringVar() # Button for y-param options
-yaxis_button.set("Please select a parameter") # Default Text
+yaxis_button = tk.StringVar()  # Button for y-param options
+yaxis_button.set("Please select a parameter")  # Default Text
 
-yaxis_drop = tk.OptionMenu(window, yaxis_button, *yaxis_options, command=new_yaxis) # Make it a dropdown menu
-yaxis_drop.grid(row=2, column=2) # Place it in the ui
+yaxis_drop = tk.OptionMenu(window, yaxis_button, *yaxis_options, command=new_yaxis)  # Make it a dropdown menu
+yaxis_drop.grid(row=2, column=2)  # Place it in the ui
 
 ## KILL IT
+
 
 # Makes sure we exit the loop when we close it
 # @ Param : NONE
@@ -179,7 +182,9 @@ yaxis_drop.grid(row=2, column=2) # Place it in the ui
 def kill():
     window.quit()
     window.destroy()
+    return
 
-window.protocol("WM_DELETE_WINDOW", kill) # Checks that we want to kill the window
 
-window.mainloop() # Run the window
+window.protocol("WM_DELETE_WINDOW", kill)  # Checks that we want to kill the window
+
+window.mainloop()  # Run the window

@@ -29,27 +29,27 @@ with open('BKB_WaterQualityData_2020084.csv') as bkb_water:
     #             important_count += 1
     #
     #     #print(row, important_count)  # Prints the whole row and the important_count of that row
-    ## The code above counts how many values are missing in the columns, useful for seeing which values are important
+    # The code above counts how many values are missing in the columns, useful for seeing which values are important
 
-    with open('BKB_WaterCleaned.csv', mode='w', newline='') as bkb_cleaned: # Write newline='' else we have blank rows
+    with open('BKB_WaterCleaned.csv', mode='w', newline='') as bkb_cleaned:  # Write newline='' else we have blank rows
         cleaned_csv = csv.writer(bkb_cleaned, delimiter=',')
         first = True
 
-        for row in water_csv: # Since we reset our CSV reader this loop writes our headers
-            valuable_data = [] # List for all the valuable data points
+        for row in water_csv:  # Since we reset our CSV reader this loop writes our headers
+            valuable_data = []  # List for all the valuable data points
             for index in important_ones:
                 if row[index] in bad_info_options:
-                    valuable_data.append("KILL") # Inform that the data is incomplete
+                    valuable_data.append("KILL")  # Inform that the data is incomplete
                     break
                 else:
-                    valuable_data.append(row[index]) # Put the data in the list
+                    valuable_data.append(row[index])  # Put the data in the list
 
             if first: # Get the first row to be values we want
                 cleaned_csv.writerow(valuable_data)
                 first = False
                 continue
 
-            if valuable_data[-1] == "KILL": # Go to the next row and skip over incomplete data
+            if valuable_data[-1] == "KILL":  # Go to the next row and skip over incomplete data
                 continue
             if not first: # Row data is complete and kept
                 date_parts = valuable_data[1].split("/")

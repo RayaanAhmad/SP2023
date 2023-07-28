@@ -2,7 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-water_df = pd.read_csv("BKB_WaterCleaned.csv", parse_dates=['Read_Date']) # Initialize the DataFrame on launch
+water_df = pd.read_csv("BKB_WaterCleaned.csv", parse_dates=['Read_Date'])  # Initialize the DataFrame on launch
+
 
 # Notes:
 # Site : [ A, B, C, D, Bay ]
@@ -38,25 +39,25 @@ def pick_two(site_df, param1, param2):
 def create_graph(paramed_df, site_name):
     headers = paramed_df.columns # The headers in the dataframe
     x_ax = headers[0].split(' ')[0]
-    y_ax = headers[1].split(' ')[0] # Get labels of the X and Y axis w/o units
+    y_ax = headers[1].split(' ')[0]  # Get labels of the X and Y axis w/o units
     title = x_ax + ' vs. ' + y_ax   # Title of the graph
 
-    null_img = plt.figure() # Placeholder
-    plt.xlabel(headers[0]) # X-Axis = param1 from pick_two()
-    plt.ylabel(headers[1]) # Y-Axis = param2 from pick_two()
+    null_img = plt.figure()  # Placeholder
+    plt.xlabel(headers[0])  # X-Axis = param1 from pick_two()
+    plt.ylabel(headers[1])  # Y-Axis = param2 from pick_two()
 
     x_values = paramed_df[headers[0]]
     y_values = paramed_df[headers[1]]
 
-    if x_ax == "Read_Date": # Plot differently if doing by time
-        plt.plot(x_values, y_values) # Plots w/ lines
-        corr_equations = "" # Don't write anything at the bottom
+    if x_ax == "Read_Date":  # Plot differently if doing by time
+        plt.plot(x_values, y_values)  # Plots w/ lines
+        corr_equations = ""  # Don't write anything at the bottom
 
     else: # Not reading date
-        plt.plot(x_values, y_values, '.') # Plots w/o lines
+        plt.plot(x_values, y_values, '.')  # Plots w/o lines
 
         m, b = np.polyfit(x_values, y_values, 1)
-        plt.plot(x_values, m*x_values + b) # Add line of best fit with equation of degree 1
+        plt.plot(x_values, m*x_values + b)  # Add line of best fit with equation of degree 1
 
         matrix = np.corrcoef(x_values, y_values)
         corr = matrix[0, 1]
@@ -66,10 +67,10 @@ def create_graph(paramed_df, site_name):
                         + '\nr^2 = ' + '{:.3f}'.format(r_squared)
         # equation and value of line of best fit and r^2 at the bottom
 
-    name = site_name + "_" + x_ax + "_" + y_ax + ".png" # Create custom name of png
+    name = site_name + "_" + x_ax + "_" + y_ax + ".png"  # Create custom name of png
     plt.title(title)
     plt.savefig(name)
-    return name, corr_equations, null_img # Return us the name of the graph
+    return name, corr_equations, null_img  # Return us the name of the graph
 
 # Arbritary Testing ## LEAVE COMMENTED OR ELSE BREAKS INTERFACE.PY
 # site = filter_site("A")
