@@ -5,9 +5,7 @@ import analyze
 
 # TO DO LIST:
 # 1) Make the graph able to read time (in analyze.py)
-# 2) Fix the line of best fit and r^2 display on graph (in analyze.py)
-# 3) Closing the window and it acutally closes
-# 4) Cleanup :)
+# 2) Closing the window and it acutally closes
 
 ## MAIN BODY OF WINDOW
 
@@ -17,9 +15,10 @@ window.geometry("1200x800") # Make the window bigger
 window.columnconfigure(0, weight=8) # Three columns, w/ ratio 8:1:1 Left-> Right
 window.columnconfigure(1, weight=1)
 window.columnconfigure(2, weight=1)
-window.rowconfigure(0, weight=1) # Three, w/ ratio 1:1:1 Top -> Bottom
-window.rowconfigure(1, weight=1)
-window.rowconfigure(2, weight=1)
+window.rowconfigure(0, weight=5) # Four, w/ ratio 5:5:5:1 Top -> Bottom
+window.rowconfigure(1, weight=5)
+window.rowconfigure(2, weight=5)
+window.rowconfigure(3, weight=1)
 
 ## LABELS
 
@@ -32,8 +31,11 @@ x_label.grid(row=1, column=1)
 y_label = tk.Label(window, text="Y-Axis Parameter") # Label for Y-Axis
 y_label.grid(row=2, column=1)
 
+corr_labels = tk.Label(window,font=("Times New Roman", 18), text="") # Label for line of best fit and r^2 value
+corr_labels.grid(row=3, column=0)
+
 # Blank image for placeholding
-blank_img = ImageTk.PhotoImage( Image.new(mode='RGB', size=(480,640), color="rgb(240,240,240)") )
+blank_img = ImageTk.PhotoImage( Image.new(mode='RGB', size=(20,20), color="rgb(240,240,240)") )
 
 im_label = tk.Label(window, image=blank_img)
 im_label.grid(row=0, column=0, rowspan=5)
@@ -125,6 +127,7 @@ def update():
     global yaxis_param
     global window
     global im_label
+    global corr_labels
 
     # Make Sure Params Are Filled And Not Duplicates #
     if (not params_filled()) or (xaxis_param == yaxis_param): # Don't change anything
@@ -136,7 +139,7 @@ def update():
     # Get New DF #
     site_df = analyze.filter_site(site_param)
     params_df = analyze.pick_two(site_df, labeler[xaxis_param], labeler[yaxis_param])
-    new_name = analyze.create_graph(params_df, site_param)
+    new_name, new_corrs, null = analyze.create_graph(params_df, site_param)
 
     # Delete Old Image IF it is not the same thing #
     if (old_name != "No Images") and (old_name != new_name): # Get rid of the old PNG file
@@ -149,6 +152,8 @@ def update():
 
     im_label.configure(image=new_img) # Update our image
     im_label.image = new_img
+
+    corr_labels.config(text=new_corrs) # Update the label
     return
 
 ## DROPDOWN MENUS
@@ -174,4 +179,3 @@ yaxis_drop.grid(row=2, column=2) # Place it in the ui
 ##
 
 window.mainloop() # Run the window
-

@@ -31,12 +31,16 @@ def pick_two(site_df, param1, param2):
 # @ Param: DataFrame: paramed_df - Dataframe with first column as X-Axis and second as Y-Axis
 #          string: site_name - Name of the chosen site
 # @ Returns: string: graph_name - name of the graph as .png file
+#                    corr_equations - line of best fit and r^2 values
+#            pyplot: null_img - return this to clear the graph
 def create_graph(paramed_df, site_name):
     headers = paramed_df.columns # The headers in the dataframe
+    print(headers)
     x_ax = headers[0].split(' ')[0]
     y_ax = headers[1].split(' ')[0] # Get labels of the X and Y axis w/o units
     title = x_ax + ' vs. ' + y_ax   # Title of the graph
 
+    null_img = plt.figure() # Placeholder
     plt.xlabel(headers[0]) # X-Axis = param1 from pick_two()
     plt.ylabel(headers[1]) # Y-Axis = param2 from pick_two()
 
@@ -50,14 +54,16 @@ def create_graph(paramed_df, site_name):
     matrix = np.corrcoef(x_values, y_values)
     corr = matrix[0, 1]
     r_squared = corr ** 2 # Getting the value of r^2
-    plt.text(0, 0,
-             'y = ' + '{:.3f}'.format(m) + 'x + ' + '{:.3f}'.format(b) + '\nr^2 = ' + '{:.3f}'.format(r_squared),
-             size=11) # Write the equation and value of r^2 at the bottom left
+
+    corr_equations = 'y = ' + '{:.3f}'.format(m) + 'x + ' + '{:.3f}'.format(b) \
+                     + '\nr^2 = ' + '{:.3f}'.format(r_squared)
+
+    # Write the equation and value of r^2 at the bottom left
 
     name = site_name + "_" + x_ax + "_" + y_ax + ".png" # Create custom name of png
     plt.title(title)
     plt.savefig(name)
-    return name # Return us the name of the graph
+    return name, corr_equations, null_img # Return us the name of the graph
 
 # Arbritary Testing ## LEAVE COMMENTED OR ELSE BREAKS INTERFACE.PY
 # site = filter_site("A")
