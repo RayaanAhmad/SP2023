@@ -1,7 +1,6 @@
 import csv
 import datetime
 
-#list_of_sets = []  # Creates a blank list for sets
 important_ones = [0, 2, 3, 4, 5, 6, 7, 8, 10, 15]  # Highly valued columns
 bad_info_options = ["", "Not Recorded", "N/A"]  # Options that are the equivalent of an empty field
 
@@ -45,7 +44,7 @@ with open('BKB_WaterQualityData_2020084.csv') as bkb_water:
                 else:
                     valuable_data.append(row[index]) # Put the data in the list
 
-            if first:
+            if first: # Get the first row to be values we want
                 cleaned_csv.writerow(valuable_data)
                 first = False
                 continue

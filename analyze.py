@@ -4,10 +4,6 @@ import numpy as np
 
 water_df = pd.read_csv("BKB_WaterCleaned.csv", parse_dates=['Read_Date']) # Initialize the DataFrame on launch
 
-dates = water_df["Read_Date"]
-oldest = min(dates) # Oldest date
-youngest = max(dates) # Youngest date
-
 # Notes:
 # Site : [ A, B, C, D, Bay ]
 # Size of DF: [ 156, 164, 100, 194, 661 ]
@@ -40,7 +36,6 @@ def pick_two(site_df, param1, param2):
 #                    corr_equations - line of best fit and r^2 values
 #            pyplot: null_img - return this to clear the graph
 def create_graph(paramed_df, site_name):
-    print(paramed_df.info())
     headers = paramed_df.columns # The headers in the dataframe
     x_ax = headers[0].split(' ')[0]
     y_ax = headers[1].split(' ')[0] # Get labels of the X and Y axis w/o units
@@ -54,13 +49,6 @@ def create_graph(paramed_df, site_name):
     y_values = paramed_df[headers[1]]
 
     if x_ax == "Read_Date": # Plot differently if doing by time
-        start = pd.Timestamp(youngest)
-        end = pd.Timestamp(oldest)
-
-        paramed_df = paramed_df[(paramed_df['Read_Date'] >= start) &
-                             (paramed_df['Read_Date'] <= end)][[headers[0], headers[1]]] # Set x-axis length
-
-        paramed_df.reset_index(drop=True, inplace=True)
         plt.plot(x_values, y_values) # Plots w/ lines
         corr_equations = "" # Don't write anything at the bottom
 

@@ -3,9 +3,6 @@ import tkinter as tk
 from PIL import ImageTk, Image
 import analyze
 
-# TO DO LIST:
-# 1) Make the graph able to read time (in analyze.py)
-
 ## MAIN BODY OF WINDOW
 
 window = tk.Tk() # Main window
