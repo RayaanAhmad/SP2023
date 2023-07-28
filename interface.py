@@ -5,7 +5,6 @@ import analyze
 
 # TO DO LIST:
 # 1) Make the graph able to read time (in analyze.py)
-# 2) Closing the window and it acutally closes
 
 ## MAIN BODY OF WINDOW
 
@@ -175,6 +174,15 @@ yaxis_button.set("Please select a parameter") # Default Text
 yaxis_drop = tk.OptionMenu(window, yaxis_button, *yaxis_options, command=new_yaxis) # Make it a dropdown menu
 yaxis_drop.grid(row=2, column=2) # Place it in the ui
 
-##
+## KILL IT
+
+# Makes sure we exit the loop when we close it
+# @ Param : NONE
+# @ Returns: NONE
+def kill():
+    window.quit()
+    window.destroy()
+
+window.protocol("WM_DELETE_WINDOW", kill) # Checks that we want to kill the window
 
 window.mainloop() # Run the window
